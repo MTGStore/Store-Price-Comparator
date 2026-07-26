@@ -178,8 +178,9 @@
 <div id="winnerBanner" class="winner-banner"></div>
 
 <div class="flipp-bar">
-  <span>📰 Weekly Ads (all stores by ZIP):</span>
-  <a id="flippLink" href="https://flipp.com" target="_blank" class="flipp-btn">Open Flipp.com →</a>
+  <span>🔍 Quick Search:</span>
+  <a id="flippLink" href="https://www.google.com/search?tbm=shop" target="_blank" class="flipp-btn">Google Shopping →</a>
+  <a id="flippOrgLink" href="https://flipp.com" target="_blank" class="flipp-btn" style="background:linear-gradient(135deg,#11998e,#38ef7d);color:#1a1a2e">Flipp Weekly Ads →</a>
   <a href="https://www.coupons.com" target="_blank" class="flipp-btn" style="background:linear-gradient(135deg,#e94560,#c0392b)">Manufacturer Coupons →</a>
 </div>
 
@@ -194,11 +195,10 @@
 const STORES = [
   { id: 'walmart',    name: 'Walmart',      type: 'Supercenter',      color: '#0071ce', abbr: 'WM',
     search: 'https://www.walmart.com/search?q=',
-    ad: 'https://www.walmart.com/store-finder?location=',
-    weekly: 'https://flipp.com/flyers/walmart?postal_code=' },
+    weekly: 'https://www.walmart.com/store/finder' },
   { id: 'target',     name: 'Target',       type: 'General Retail',   color: '#cc0000', abbr: 'TG',
     search: 'https://www.target.com/s?searchTerm=',
-    weekly: 'https://flipp.com/flyers/target?postal_code=' },
+    weekly: 'https://www.target.com/c/target-circle-deals/-/N-4sfoy' },
   { id: 'sams',       name: "Sam's Club",   type: 'Warehouse Club',   color: '#007dc6', abbr: 'SC',
     search: 'https://www.samsclub.com/s/',
     weekly: 'https://www.samsclub.com/savings' },
@@ -207,19 +207,19 @@ const STORES = [
     weekly: 'https://www.costco.com/hot-buys.html' },
   { id: 'publix',     name: 'Publix',       type: 'Grocery',          color: '#007a40', abbr: 'PX',
     search: 'https://www.publix.com/savings/coupons-and-deals?q=',
-    weekly: 'https://flipp.com/flyers/publix?postal_code=' },
+    weekly: 'https://www.publix.com/savings/weekly-ad' },
   { id: 'foodlion',   name: 'Food Lion',    type: 'Grocery',          color: '#e31837', abbr: 'FL',
     search: 'https://www.foodlion.com/search/?q=',
-    weekly: 'https://flipp.com/flyers/food-lion?postal_code=' },
+    weekly: 'https://www.foodlion.com/savings/weekly-specials/' },
   { id: 'dollargen',  name: 'Dollar General', type: 'Value Retail',   color: '#ffc220', abbr: 'DG',
     search: 'https://www.dollargeneral.com/search#q=',
-    weekly: 'https://flipp.com/flyers/dollar-general?postal_code=' },
+    weekly: 'https://www.dollargeneral.com/savings/weekly-ad.html' },
   { id: 'cvs',        name: 'CVS Pharmacy', type: 'Drug Store',       color: '#cc0000', abbr: 'CV',
     search: 'https://www.cvs.com/search?searchTerm=',
-    weekly: 'https://flipp.com/flyers/cvs?postal_code=' },
+    weekly: 'https://www.cvs.com/weekly-ad/weekly-deals' },
   { id: 'walgreens',  name: 'Walgreens',    type: 'Drug Store',       color: '#e31837', abbr: 'WG',
     search: 'https://www.walgreens.com/search/results.jsp?Ntt=',
-    weekly: 'https://flipp.com/flyers/walgreens?postal_code=' },
+    weekly: 'https://www.walgreens.com/offers/offers.jsp' },
 ];
 
 let currentProduct = '';
@@ -295,12 +295,18 @@ function loadSearch() {
     }
   });
 
-  // Update Flipp link
+  // Update Google Shopping link (reliable cross-store price search)
+  const googleUrl = currentZip
+    ? `https://www.google.com/search?q=${encoded}+price&tbm=shop&near=${currentZip}`
+    : `https://www.google.com/search?q=${encoded}+price&tbm=shop`;
+  document.getElementById('flippLink').href = googleUrl;
+  document.getElementById('flippLink').textContent = `Search "${currentProduct}" on Google Shopping →`;
+
+  // Update Flipp link (opens homepage, user searches manually — Flipp blocks URL search)
   const flippUrl = currentZip
-    ? `https://flipp.com/search/${encoded}?postal_code=${currentZip}`
-    : `https://flipp.com/search/${encoded}`;
-  document.getElementById('flippLink').href = flippUrl;
-  document.getElementById('flippLink').textContent = `Search "${currentProduct}" on Flipp →`;
+    ? `https://flipp.com/flyers?postal_code=${currentZip}`
+    : `https://flipp.com`;
+  document.getElementById('flippOrgLink').href = flippUrl;
 
   updateSummary();
 }
