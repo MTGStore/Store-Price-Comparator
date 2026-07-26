@@ -13,184 +13,223 @@ header {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
   color: white; padding: 16px 20px; text-align: center;
 }
-header h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.5px; }
-header p { font-size: 0.76rem; opacity: 0.65; margin-top: 3px; }
+header h1 { font-size: 1.3rem; font-weight: 800; }
+header p  { font-size: 0.74rem; opacity: 0.6; margin-top: 3px; }
 
-/* SEARCH BOX */
+/* SEARCH */
 .search-section {
-  background: white; padding: 16px 16px 12px;
+  background: white; padding: 14px 14px 10px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
   position: sticky; top: 0; z-index: 200;
 }
-.search-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.search-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 9px; }
 .search-row input {
-  flex: 1; min-width: 150px; padding: 11px 14px;
-  border: 2px solid #e2e8f0; border-radius: 10px;
-  font-size: 0.95rem; outline: none; transition: border 0.2s;
+  flex: 1; min-width: 140px; padding: 10px 13px;
+  border: 2px solid #e2e8f0; border-radius: 10px; font-size: 0.93rem; outline: none;
 }
 .search-row input:focus { border-color: #0f3460; }
-.zip-input { max-width: 120px !important; flex: none !important; }
+.zip-in { max-width: 115px !important; flex: none !important; }
+.btn { padding: 10px 16px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.86rem; transition: all 0.18s; white-space: nowrap; }
+.btn-main { background: linear-gradient(135deg,#0f3460,#e94560); color: white; }
+.btn-main:hover { opacity: 0.87; }
+.btn-sm { background: #edf2f7; color: #4a5568; font-size: 0.8rem; padding: 8px 13px; }
+.btn-sm:hover { background: #e2e8f0; }
 
-.btn { padding: 11px 18px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.88rem; transition: all 0.2s; white-space: nowrap; }
-.btn-main { background: linear-gradient(135deg, #0f3460, #e94560); color: white; font-size: 0.95rem; padding: 11px 22px; }
-.btn-main:hover { opacity: 0.88; transform: translateY(-1px); }
-.btn-clear { background: #edf2f7; color: #718096; }
-.btn-clear:hover { background: #e2e8f0; }
+.quick-links { display: flex; gap: 7px; flex-wrap: wrap; }
+.qlink { display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:8px;font-size:0.73rem;font-weight:700;text-decoration:none;transition:opacity 0.2s;white-space:nowrap; }
+.qlink:hover { opacity:0.8; }
+.ql-g { background:#e8f0fe;color:#1a73e8; }
+.ql-f { background:#e6f4ea;color:#1e7e34; }
+.ql-c { background:#fce8e6;color:#c5221f; }
+.ql-p { background:#fff3e0;color:#e65100; }
 
-.quick-links { display: flex; gap: 8px; flex-wrap: wrap; }
-.qlink {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 6px 12px; border-radius: 8px; font-size: 0.76rem; font-weight: 700;
-  text-decoration: none; transition: opacity 0.2s; white-space: nowrap;
+/* DEAL CALCULATOR MODAL */
+.modal-overlay {
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;
+  align-items:center;justify-content:center;padding:16px;
 }
-.qlink:hover { opacity: 0.82; }
-.qlink-google { background: #e8f0fe; color: #1a73e8; }
-.qlink-flipp  { background: #e6f4ea; color: #1e7e34; }
-.qlink-cpn    { background: #fce8e6; color: #c5221f; }
-.qlink-mfr    { background: #fff3e0; color: #e65100; }
+.modal-overlay.open { display:flex; }
+.modal {
+  background:white;border-radius:18px;width:100%;max-width:520px;
+  max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);
+}
+.modal-head {
+  background:linear-gradient(135deg,#1a1a2e,#0f3460);color:white;
+  padding:16px 20px;border-radius:18px 18px 0 0;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:1;
+}
+.modal-head h2 { font-size:1rem;font-weight:800; }
+.modal-close { background:none;border:none;color:white;font-size:1.4rem;cursor:pointer;opacity:0.7; }
+.modal-close:hover { opacity:1; }
+.modal-body { padding:18px 20px; }
+
+.deal-tabs { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px; }
+.dtab {
+  padding:7px 14px;border-radius:9px;font-size:0.8rem;font-weight:700;
+  cursor:pointer;border:2px solid #e2e8f0;background:white;color:#718096;transition:all 0.15s;
+}
+.dtab.active { background:#0f3460;color:white;border-color:#0f3460; }
+
+.deal-panel { display:none; }
+.deal-panel.active { display:block; }
+
+.dl { margin-bottom:12px; }
+.dl label { display:block;font-size:0.72rem;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px; }
+.dl input, .dl select {
+  width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:9px;
+  font-size:0.9rem;outline:none;background:#fafafa;
+}
+.dl input:focus, .dl select:focus { border-color:#0f3460;background:white; }
+
+.dl-row { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+.dl-row3 { display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px; }
+
+.result-box {
+  background:linear-gradient(135deg,#ebf8ff,#e6fffa);
+  border:2px solid #90cdf4;border-radius:12px;padding:14px 16px;margin-top:14px;
+}
+.result-box .result-title { font-size:0.72rem;font-weight:700;color:#2b6cb0;text-transform:uppercase;letter-spacing:0.5px; }
+.result-box .result-main { font-size:1.5rem;font-weight:900;color:#1a202c;margin:4px 0; }
+.result-box .result-sub  { font-size:0.8rem;color:#4a5568; }
+.result-box.green { background:linear-gradient(135deg,#f0fff4,#e6fffa);border-color:#9ae6b4; }
+.result-box.green .result-title { color:#276749; }
+
+.section-divider { border:none;border-top:1px solid #e2e8f0;margin:14px 0; }
 
 /* WINNER BANNER */
-.winner-banner {
-  display: none; margin: 12px 14px 0;
-  background: linear-gradient(135deg, #11998e, #38ef7d);
-  color: #1a2e1a; border-radius: 12px;
-  padding: 12px 18px; font-weight: 800; font-size: 0.95rem;
-  text-align: center; box-shadow: 0 4px 14px rgba(56,239,125,0.3);
-}
-.winner-banner.show { display: block; }
+.winner-banner { display:none;margin:12px 14px 0;background:linear-gradient(135deg,#11998e,#38ef7d);color:#1a2e1a;border-radius:12px;padding:12px 18px;font-weight:800;font-size:0.93rem;text-align:center;box-shadow:0 4px 14px rgba(56,239,125,0.3); }
+.winner-banner.show { display:block; }
 
-/* SUMMARY RANK TABLE */
-.summary-wrap { display: none; margin: 12px 14px 0; }
-.summary-wrap.show { display: block; }
-.summary-card {
-  background: white; border-radius: 12px; overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.summary-head {
-  background: #1a1a2e; color: white;
-  padding: 10px 16px; font-size: 0.82rem; font-weight: 700;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.summary-row {
-  display: flex; align-items: center; padding: 9px 16px;
-  border-bottom: 1px solid #f0f4f8; font-size: 0.84rem;
-}
-.summary-row:last-child { border: none; }
-.summary-row.best { background: #f0fff4; }
-.s-rank { width: 32px; font-weight: 800; font-size: 1rem; }
-.s-name { flex: 1; font-weight: 600; color: #2d3748; }
-.s-price { font-weight: 800; color: #2b6cb0; min-width: 60px; text-align: right; }
-.s-diff  { min-width: 70px; text-align: right; font-size: 0.75rem; color: #718096; }
-.s-diff.best-tag { color: #276749; font-weight: 700; }
+/* SUMMARY */
+.summary-wrap { display:none;margin:12px 14px 0; }
+.summary-wrap.show { display:block; }
+.summary-card { background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07); }
+.summary-head { background:#1a1a2e;color:white;padding:10px 16px;font-size:0.82rem;font-weight:700;display:flex;justify-content:space-between; }
+.summary-row { display:flex;align-items:center;padding:9px 16px;border-bottom:1px solid #f0f4f8;font-size:0.83rem; }
+.summary-row:last-child { border:none; }
+.summary-row.best { background:#f0fff4; }
+.sr-rank { width:30px;font-size:1rem;font-weight:800; }
+.sr-name { flex:1;font-weight:600;color:#2d3748; }
+.sr-price { font-weight:800;color:#2b6cb0;min-width:58px;text-align:right; }
+.sr-diff  { min-width:80px;text-align:right;font-size:0.73rem;color:#718096; }
+.sr-diff.best-tag { color:#276749;font-weight:700; }
 
-/* STORE GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 13px; padding: 14px;
-}
+/* OPEN ALL */
+.open-all-bar { padding:0 14px 12px;display:none; }
+.open-all-bar.show { display:block; }
+.btn-open-all { width:100%;padding:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:12px;font-size:0.9rem;font-weight:800;cursor:pointer;transition:opacity 0.2s; }
+.btn-open-all:hover { opacity:0.88; }
+.btn-open-all small { display:block;font-size:0.7rem;font-weight:400;opacity:0.75;margin-top:2px; }
+
+/* ACTION BAR */
+.action-bar { display:flex;gap:8px;padding:0 14px 10px;flex-wrap:wrap; }
+.btn-deal-calc { background:linear-gradient(135deg,#f093fb,#f5576c);color:white;border:none;border-radius:10px;padding:9px 16px;font-weight:800;font-size:0.83rem;cursor:pointer; }
+
+/* GRID */
+.grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;padding:12px 14px; }
 
 /* STORE CARD */
-.store-card {
-  background: white; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-  border: 2px solid transparent; transition: transform 0.18s, box-shadow 0.18s;
-}
-.store-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.11); }
-.store-card.winner { border-color: #38ef7d; }
+.store-card { background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.07);border:2px solid transparent;transition:transform 0.18s,box-shadow 0.18s; }
+.store-card:hover { transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,0.11); }
+.store-card.winner { border-color:#38ef7d; }
 
-/* CARD HEADER */
-.card-head {
-  display: flex; align-items: center; gap: 11px;
-  padding: 11px 14px; border-bottom: 1px solid #f0f4f8;
-}
-.store-icon {
-  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; font-weight: 900; color: white;
-}
-.store-title { flex: 1; }
-.store-title strong { font-size: 0.92rem; color: #1a202c; display: block; }
-.store-title span { font-size: 0.7rem; color: #a0aec0; }
-.card-badge {
-  background: #f7fafc; border-radius: 8px;
-  padding: 4px 10px; font-size: 0.78rem; font-weight: 700;
-  color: #718096; white-space: nowrap;
-}
-.card-badge.priced { background: #ebf8ff; color: #2b6cb0; }
-.card-badge.winning { background: #f0fff4; color: #276749; }
+.card-head { display:flex;align-items:center;gap:10px;padding:11px 13px;border-bottom:1px solid #f0f4f8; }
+.store-icon { width:38px;height:38px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:900;color:white; }
+.store-title { flex:1; }
+.store-title strong { font-size:0.9rem;color:#1a202c;display:block; }
+.store-title span { font-size:0.68rem;color:#a0aec0; }
+.card-badge { background:#f7fafc;border-radius:8px;padding:4px 9px;font-size:0.76rem;font-weight:700;color:#718096;white-space:nowrap; }
+.card-badge.priced { background:#ebf8ff;color:#2b6cb0; }
+.card-badge.winning { background:#f0fff4;color:#276749; }
 
-/* CARD BODY */
-.card-body { padding: 13px 14px; }
+.card-body { padding:12px 13px; }
+.field-label { font-size:0.67rem;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px; }
 
-.field-label {
-  font-size: 0.68rem; font-weight: 700; color: #a0aec0;
-  text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px;
-}
+.price-field { display:flex;align-items:center;gap:6px;margin-bottom:9px; }
+.price-field span { color:#a0aec0;font-weight:700; }
+.price-field input { flex:1;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:0.9rem;outline:none;background:#fafafa;transition:border 0.2s; }
+.price-field input:focus { border-color:#0f3460;background:white; }
+.price-field input.has-val { border-color:#90cdf4;background:white; }
 
-.price-field { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-.price-field span { color: #a0aec0; font-weight: 700; font-size: 0.95rem; }
-.price-field input {
-  flex: 1; padding: 9px 11px; border: 1.5px solid #e2e8f0;
-  border-radius: 9px; font-size: 0.92rem; outline: none; background: #fafafa;
-  transition: border 0.2s;
-}
-.price-field input:focus { border-color: #0f3460; background: white; }
-.price-field input.has-val { border-color: #90cdf4; background: white; }
+.coupon-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:9px; }
+.cpn-wrap { position:relative; }
+.cpn-pill { position:absolute;top:50%;left:8px;transform:translateY(-50%);font-size:0.58rem;font-weight:800;padding:2px 5px;border-radius:4px;pointer-events:none;z-index:1; }
+.cpn-s { background:#fff5f5;color:#c53030;border:1px solid #feb2b2; }
+.cpn-m { background:#f0fff4;color:#276749;border:1px solid #9ae6b4; }
+.cpn-wrap input { width:100%;padding:8px 8px 8px 42px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:0.82rem;outline:none;background:#fafafa; }
+.cpn-wrap input:focus { border-color:#805ad5;background:white; }
 
-.coupon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 10px; }
-.cpn-wrap { position: relative; }
-.cpn-label-pill {
-  position: absolute; top: 50%; left: 9px; transform: translateY(-50%);
-  font-size: 0.6rem; font-weight: 800; padding: 2px 5px; border-radius: 4px;
-  pointer-events: none; z-index: 1;
+/* DEALS FROM AD */
+.deals-section { margin-top:10px; }
+.deals-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px; }
+.deals-header .field-label { margin:0; }
+.btn-add-deal { background:#f0fff4;color:#276749;border:1px solid #9ae6b4;border-radius:7px;padding:3px 9px;font-size:0.7rem;font-weight:700;cursor:pointer; }
+.deal-list { display:flex;flex-direction:column;gap:5px; }
+.deal-chip {
+  display:flex;align-items:center;gap:7px;background:#fffbeb;
+  border:1px solid #f6e05e;border-radius:8px;padding:6px 10px;font-size:0.78rem;
 }
-.cpn-store-pill { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
-.cpn-mfr-pill   { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
-.cpn-wrap input {
-  width: 100%; padding: 8px 8px 8px 44px;
-  border: 1.5px solid #e2e8f0; border-radius: 9px;
-  font-size: 0.84rem; outline: none; background: #fafafa; transition: border 0.2s;
+.deal-chip .deal-text { flex:1;color:#744210;font-weight:600; }
+.deal-chip .deal-savings { color:#276749;font-weight:800;white-space:nowrap; }
+.deal-chip .deal-remove { background:none;border:none;color:#a0aec0;cursor:pointer;font-size:0.9rem;padding:0 2px; }
+.deal-chip .deal-remove:hover { color:#e53e3e; }
+
+/* AD UPLOAD */
+.ad-section { margin-top:10px;border-top:1px solid #f0f4f8;padding-top:10px; }
+.ad-upload-row { display:flex;gap:6px;align-items:center; }
+.ad-upload-label {
+  flex:1;display:flex;align-items:center;gap:6px;
+  padding:7px 10px;background:#f7fafc;border:1.5px dashed #cbd5e0;
+  border-radius:9px;cursor:pointer;font-size:0.76rem;color:#718096;font-weight:600;
+  transition:all 0.2s;
 }
-.cpn-wrap input:focus { border-color: #805ad5; background: white; }
+.ad-upload-label:hover { background:#ebf8ff;border-color:#90cdf4;color:#2b6cb0; }
+.ad-upload-input { display:none; }
+.ad-preview-wrap { margin-top:8px;display:none; }
+.ad-preview-wrap.show { display:block; }
+.ad-preview-img { width:100%;border-radius:8px;border:1px solid #e2e8f0;cursor:zoom-in; }
+.ad-pdf-frame { width:100%;height:280px;border-radius:8px;border:1px solid #e2e8f0; }
+.btn-clear-ad { background:#fff5f5;color:#c53030;border:1px solid #feb2b2;border-radius:7px;padding:5px 9px;font-size:0.7rem;font-weight:700;cursor:pointer; }
 
 /* ACTION LINKS */
-.action-links { display: flex; flex-wrap: wrap; gap: 6px; }
-.alink {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 5px 10px; border-radius: 7px; font-size: 0.72rem;
-  font-weight: 700; text-decoration: none; transition: opacity 0.2s;
-}
-.alink:hover { opacity: 0.78; }
-.alink-search { background: #ebf8ff; color: #2b6cb0; }
-.alink-weekly { background: #fff5f5; color: #c53030; }
-.alink-coupon { background: #faf5ff; color: #6b46c1; }
+.action-links { display:flex;flex-wrap:wrap;gap:5px;margin-top:9px; }
+.alink { display:inline-flex;align-items:center;gap:3px;padding:5px 9px;border-radius:7px;font-size:0.7rem;font-weight:700;text-decoration:none;transition:opacity 0.2s; }
+.alink:hover { opacity:0.78; }
+.al-s { background:#ebf8ff;color:#2b6cb0; }
+.al-w { background:#fff5f5;color:#c53030; }
+.al-c { background:#faf5ff;color:#6b46c1; }
 
-/* SAVINGS NOTE */
-.savings-note {
-  display: none; margin-top: 9px; padding: 7px 11px;
-  background: #fffbeb; border-radius: 8px; border-left: 3px solid #f6ad55;
-  font-size: 0.78rem; color: #744210;
-}
-.savings-note.show { display: block; }
+.savings-note { display:none;margin-top:8px;padding:6px 10px;background:#fffbeb;border-radius:8px;border-left:3px solid #f6ad55;font-size:0.76rem;color:#744210; }
+.savings-note.show { display:block; }
 
-/* OPEN ALL BUTTON */
-.open-all-bar {
-  padding: 0 14px 14px; display: none;
+/* INLINE DEAL FORM (inside card) */
+.deal-form-card {
+  display:none;background:#f7fafc;border:1.5px solid #e2e8f0;
+  border-radius:10px;padding:12px;margin-top:8px;
 }
-.open-all-bar.show { display: block; }
-.btn-open-all {
-  width: 100%; padding: 13px; background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white; border: none; border-radius: 12px; font-size: 0.95rem;
-  font-weight: 800; cursor: pointer; letter-spacing: 0.3px; transition: opacity 0.2s;
+.deal-form-card.open { display:block; }
+.deal-type-pills { display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px; }
+.dtpill {
+  padding:4px 10px;border-radius:7px;font-size:0.7rem;font-weight:700;
+  cursor:pointer;border:1.5px solid #e2e8f0;background:white;color:#718096;
 }
-.btn-open-all:hover { opacity: 0.88; }
-.btn-open-all small { display: block; font-size: 0.72rem; font-weight: 400; opacity: 0.8; margin-top: 2px; }
+.dtpill.active { background:#0f3460;color:white;border-color:#0f3460; }
+.deal-subform { display:none; }
+.deal-subform.active { display:block; }
+.deal-row { display:flex;gap:6px;margin-bottom:7px; }
+.deal-row input { flex:1;padding:7px 9px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.82rem;outline:none;background:white; }
+.deal-row input:focus { border-color:#0f3460; }
+.deal-row select { flex:1;padding:7px 9px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.82rem;outline:none;background:white; }
+.btn-add-this-deal { width:100%;padding:8px;background:#276749;color:white;border:none;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;margin-top:4px; }
+.btn-add-this-deal:hover { background:#22543d; }
+.btn-cancel-deal { background:none;border:none;color:#a0aec0;font-size:0.75rem;cursor:pointer;display:block;text-align:center;margin-top:6px; }
 
-@media (max-width: 580px) {
-  .grid { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
-  .coupon-grid { grid-template-columns: 1fr; }
-  header h1 { font-size: 1.15rem; }
+@media(max-width:580px){
+  .grid{grid-template-columns:1fr;padding:10px;gap:10px;}
+  .coupon-grid{grid-template-columns:1fr;}
+  header h1{font-size:1.1rem;}
+  .dl-row,.dl-row3{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -198,117 +237,202 @@ header p { font-size: 0.76rem; opacity: 0.65; margin-top: 3px; }
 
 <header>
   <h1>🛒 MTG Store — Price Comparator</h1>
-  <p>Search all 9 stores at once · Stack coupons · Find the best deal</p>
+  <p>Search all 9 stores · Upload weekly ads · Stack every deal</p>
 </header>
 
 <!-- SEARCH -->
 <div class="search-section">
   <div class="search-row">
     <input type="text" id="productInput" placeholder="e.g. Pepsi 2 Liter, Doritos Nacho Cheese" />
-    <input type="text" id="zipInput" class="zip-input" placeholder="ZIP Code" maxlength="5" />
+    <input type="text" id="zipInput" class="zip-in" placeholder="ZIP" maxlength="5" />
     <button class="btn btn-main" onclick="doSearch()">🔍 Search All Stores</button>
-    <button class="btn btn-clear" onclick="clearAll()">✕ Clear</button>
+    <button class="btn btn-sm" onclick="clearAll()">✕ Clear</button>
   </div>
   <div class="quick-links">
-    <span style="font-size:0.72rem;color:#a0aec0;align-self:center;font-weight:600;">Quick Links:</span>
-    <a id="googleLink" class="qlink qlink-google" href="https://www.google.com/search?tbm=shop" target="_blank">🛍️ Google Shopping</a>
-    <a id="flippLink"  class="qlink qlink-flipp"  href="https://flipp.com" target="_blank">📰 Flipp Weekly Ads</a>
-    <a id="cpnLink"    class="qlink qlink-cpn"    href="https://www.coupons.com" target="_blank">✂️ Coupons.com</a>
-    <a class="qlink qlink-mfr" href="https://www.pgeveryday.com/coupons" target="_blank">🏷️ P&amp;G Coupons</a>
+    <span style="font-size:0.7rem;color:#a0aec0;align-self:center;font-weight:600">Quick:</span>
+    <a id="googleLink" class="qlink ql-g" href="https://www.google.com/search?tbm=shop" target="_blank">🛍️ Google Shopping</a>
+    <a id="flippLink"  class="qlink ql-f" href="https://flipp.com" target="_blank">📰 Flipp Ads</a>
+    <a id="cpnLink"    class="qlink ql-c" href="https://www.coupons.com" target="_blank">✂️ Coupons.com</a>
+    <a class="qlink ql-p" href="https://www.pgeveryday.com/coupons" target="_blank">🏷️ P&amp;G Coupons</a>
   </div>
 </div>
 
-<!-- OPEN ALL BUTTON -->
+<!-- OPEN ALL + DEAL CALC BUTTONS -->
 <div class="open-all-bar" id="openAllBar">
   <button class="btn-open-all" onclick="openAllTabs()">
     ⚡ Open All 9 Store Searches in New Tabs
-    <small>Your browser will open a tab for each store's product search page</small>
+    <small>Opens every store pre-searched for your product — read prices and enter below</small>
   </button>
+</div>
+<div class="action-bar" id="actionBar" style="display:none">
+  <button class="btn-deal-calc" onclick="openDealCalc()">🧮 Deal Calculator (Multi-buy · BOGO · Combo · Mix&amp;Match)</button>
 </div>
 
 <!-- WINNER BANNER -->
 <div id="winnerBanner" class="winner-banner"></div>
 
-<!-- SUMMARY TABLE -->
+<!-- SUMMARY -->
 <div id="summaryWrap" class="summary-wrap">
   <div class="summary-card">
-    <div class="summary-head">
-      <span>📊 Price Ranking</span>
-      <span style="font-weight:400;opacity:0.7">Enter prices on cards below</span>
-    </div>
+    <div class="summary-head"><span>📊 Price Ranking</span><span style="font-weight:400;opacity:0.65">Enter prices on cards below</span></div>
     <div id="summaryBody"></div>
   </div>
 </div>
 
-<!-- STORE CARDS -->
+<!-- STORE GRID -->
 <div class="grid" id="storeGrid"></div>
 
+<!-- ═══════════════════════════════════════════════
+     DEAL CALCULATOR MODAL
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="dealModal" onclick="closeDealOnOverlay(event)">
+<div class="modal">
+  <div class="modal-head">
+    <h2>🧮 Deal Calculator</h2>
+    <button class="modal-close" onclick="closeDealCalc()">×</button>
+  </div>
+  <div class="modal-body">
+
+    <!-- TABS -->
+    <div class="deal-tabs">
+      <button class="dtab active" onclick="switchDealTab('multibuy',this)">3 for $5</button>
+      <button class="dtab" onclick="switchDealTab('bogo',this)">BOGO</button>
+      <button class="dtab" onclick="switchDealTab('combo',this)">Combo Deal</button>
+      <button class="dtab" onclick="switchDealTab('mixmatch',this)">Mix &amp; Match</button>
+    </div>
+
+    <!-- MULTI-BUY -->
+    <div id="tab-multibuy" class="deal-panel active">
+      <p style="font-size:0.78rem;color:#718096;margin-bottom:12px">e.g. Buy 3 Pepsi for $5.00 — how much per bottle?</p>
+      <div class="dl-row">
+        <div class="dl"><label>Buy Quantity</label><input type="number" id="mb-qty" placeholder="3" min="1" oninput="calcMultibuy()" /></div>
+        <div class="dl"><label>Total Deal Price ($)</label><input type="number" id="mb-total" placeholder="5.00" step="0.01" oninput="calcMultibuy()" /></div>
+      </div>
+      <div class="dl"><label>Regular Price Per Item ($) <span style="font-weight:400;opacity:0.6">(optional — shows savings)</span></label>
+        <input type="number" id="mb-reg" placeholder="2.19" step="0.01" oninput="calcMultibuy()" />
+      </div>
+      <div class="dl"><label>How Many Are You Buying?</label>
+        <input type="number" id="mb-buying" placeholder="e.g. 6" min="1" oninput="calcMultibuy()" />
+      </div>
+      <div id="mb-result" class="result-box" style="display:none"></div>
+    </div>
+
+    <!-- BOGO -->
+    <div id="tab-bogo" class="deal-panel">
+      <p style="font-size:0.78rem;color:#718096;margin-bottom:12px">Buy one get one free or at a discount</p>
+      <div class="dl"><label>Item Regular Price ($)</label><input type="number" id="bg-price" placeholder="3.49" step="0.01" oninput="calcBogo()" /></div>
+      <div class="dl"><label>BOGO Type</label>
+        <select id="bg-type" onchange="calcBogo()">
+          <option value="free">Buy 1 Get 1 FREE (50% off pair)</option>
+          <option value="50">Buy 1 Get 1 50% Off</option>
+          <option value="custom">Buy 1 Get 1 at Custom % Off</option>
+        </select>
+      </div>
+      <div class="dl" id="bg-custom-wrap" style="display:none"><label>Discount % on 2nd Item</label>
+        <input type="number" id="bg-custom-pct" placeholder="30" min="1" max="100" oninput="calcBogo()" />
+      </div>
+      <div class="dl"><label>How Many Items Total?</label>
+        <input type="number" id="bg-qty" placeholder="2" min="1" oninput="calcBogo()" />
+      </div>
+      <div id="bg-result" class="result-box" style="display:none"></div>
+    </div>
+
+    <!-- COMBO -->
+    <div id="tab-combo" class="deal-panel">
+      <p style="font-size:0.78rem;color:#718096;margin-bottom:12px">Buy Product A + Product B together for a special price</p>
+      <div class="dl"><label>Product A Name</label><input type="text" id="cb-a-name" placeholder="e.g. Pepsi 2L" oninput="calcCombo()" /></div>
+      <div class="dl-row">
+        <div class="dl"><label>Product A Regular Price ($)</label><input type="number" id="cb-a-price" placeholder="2.49" step="0.01" oninput="calcCombo()" /></div>
+        <div class="dl"><label>Product A Qty</label><input type="number" id="cb-a-qty" placeholder="1" min="1" value="1" oninput="calcCombo()" /></div>
+      </div>
+      <hr class="section-divider">
+      <div class="dl"><label>Product B Name</label><input type="text" id="cb-b-name" placeholder="e.g. Doritos Nacho" oninput="calcCombo()" /></div>
+      <div class="dl-row">
+        <div class="dl"><label>Product B Regular Price ($)</label><input type="number" id="cb-b-price" placeholder="3.99" step="0.01" oninput="calcCombo()" /></div>
+        <div class="dl"><label>Product B Qty</label><input type="number" id="cb-b-qty" placeholder="1" min="1" value="1" oninput="calcCombo()" /></div>
+      </div>
+      <hr class="section-divider">
+      <div class="dl"><label>Combo Deal Price ($) <span style="font-weight:400;opacity:0.6">(total you pay for both)</span></label>
+        <input type="number" id="cb-deal" placeholder="4.99" step="0.01" oninput="calcCombo()" />
+      </div>
+      <div id="cb-result" class="result-box" style="display:none"></div>
+    </div>
+
+    <!-- MIX & MATCH -->
+    <div id="tab-mixmatch" class="deal-panel">
+      <p style="font-size:0.78rem;color:#718096;margin-bottom:12px">Any X items from a group for $Y (e.g. any 3 drinks for $5)</p>
+      <div class="dl-row">
+        <div class="dl"><label>Items Needed for Deal</label><input type="number" id="mm-need" placeholder="3" min="1" oninput="calcMixMatch()" /></div>
+        <div class="dl"><label>Deal Price for That Group ($)</label><input type="number" id="mm-price" placeholder="5.00" step="0.01" oninput="calcMixMatch()" /></div>
+      </div>
+      <div class="dl"><label>How Many Items Are You Buying?</label>
+        <input type="number" id="mm-buying" placeholder="6" min="1" oninput="calcMixMatch()" />
+      </div>
+      <div class="dl"><label>Average Regular Price Per Item ($) <span style="font-weight:400;opacity:0.6">(optional)</span></label>
+        <input type="number" id="mm-reg" placeholder="2.00" step="0.01" oninput="calcMixMatch()" />
+      </div>
+      <div id="mm-result" class="result-box" style="display:none"></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
 <script>
+/* ══════════════════════════════════════════════
+   STORE DATA
+══════════════════════════════════════════════ */
 const STORES = [
-  {
-    id: 'walmart', name: 'Walmart', type: 'Supercenter', abbr: 'WM', color: '#0071ce',
-    search:  q => `https://www.walmart.com/search?q=${q}`,
-    weekly:  z => `https://www.walmart.com/store/finder?location=${z}`,
-    coupon:  q => `https://www.walmart.com/search?q=${q}&facet=special_offers%3AReduced+Price`,
-  },
-  {
-    id: 'target', name: 'Target', type: 'General Retail', abbr: 'TG', color: '#cc0000',
-    search:  q => `https://www.target.com/s?searchTerm=${q}`,
-    weekly:  z => `https://www.target.com/c/target-circle-deals/-/N-4sfoy`,
-    coupon:  q => `https://www.target.com/s?searchTerm=${q}&type=products&moveTo=productAisle&Nao=0&isFiltered=true&filterString=on+sale%3D%7COn+Sale%7C`,
-  },
-  {
-    id: 'sams', name: "Sam's Club", type: 'Warehouse Club', abbr: 'SC', color: '#007dc6',
-    search:  q => `https://www.samsclub.com/s/${q}`,
-    weekly:  z => `https://www.samsclub.com/savings`,
-    coupon:  q => `https://www.samsclub.com/savings`,
-  },
-  {
-    id: 'costco', name: 'Costco', type: 'Warehouse Club', abbr: 'CO', color: '#005daa',
-    search:  q => `https://www.costco.com/CatalogSearch?keyword=${q}`,
-    weekly:  z => `https://www.costco.com/hot-buys.html`,
-    coupon:  q => `https://www.costco.com/savings-events.html`,
-  },
-  {
-    id: 'publix', name: 'Publix', type: 'Grocery', abbr: 'PX', color: '#007a40',
-    search:  q => `https://www.publix.com/savings/coupons-and-deals?q=${q}`,
-    weekly:  z => `https://www.publix.com/savings/weekly-ad`,
-    coupon:  q => `https://www.publix.com/savings/coupons-and-deals?q=${q}`,
-  },
-  {
-    id: 'foodlion', name: 'Food Lion', type: 'Grocery', abbr: 'FL', color: '#e31837',
-    search:  q => `https://www.foodlion.com/search/?q=${q}`,
-    weekly:  z => `https://www.foodlion.com/savings/weekly-specials/`,
-    coupon:  q => `https://www.foodlion.com/savings/coupons/`,
-  },
-  {
-    id: 'dollargen', name: 'Dollar General', type: 'Value Retail', abbr: 'DG', color: '#ffc220',
-    search:  q => `https://www.dollargeneral.com/search#q=${q}&t=All`,
-    weekly:  z => `https://www.dollargeneral.com/savings/weekly-ad.html`,
-    coupon:  q => `https://www.dollargeneral.com/savings/coupons.html`,
-  },
-  {
-    id: 'cvs', name: 'CVS Pharmacy', type: 'Drug Store', abbr: 'CV', color: '#cc0000',
-    search:  q => `https://www.cvs.com/search?searchTerm=${q}`,
-    weekly:  z => `https://www.cvs.com/weekly-ad/weekly-deals`,
-    coupon:  q => `https://www.cvs.com/extracare/coupons-and-deals`,
-  },
-  {
-    id: 'walgreens', name: 'Walgreens', type: 'Drug Store', abbr: 'WG', color: '#e31837',
-    search:  q => `https://www.walgreens.com/search/results.jsp?Ntt=${q}`,
-    weekly:  z => `https://www.walgreens.com/offers/offers.jsp`,
-    coupon:  q => `https://www.walgreens.com/offers/offers.jsp`,
-  },
+  { id:'walmart',   name:'Walmart',       type:'Supercenter',    abbr:'WM', color:'#0071ce',
+    search: q=>`https://www.walmart.com/search?q=${q}`,
+    weekly: z=>`https://www.walmart.com/store/finder?location=${z}`,
+    coupon: q=>`https://www.walmart.com/search?q=${q}&facet=special_offers%3AReduced+Price` },
+  { id:'target',    name:'Target',        type:'General Retail', abbr:'TG', color:'#cc0000',
+    search: q=>`https://www.target.com/s?searchTerm=${q}`,
+    weekly: z=>`https://www.target.com/c/target-circle-deals/-/N-4sfoy`,
+    coupon: q=>`https://www.target.com/s?searchTerm=${q}&type=products` },
+  { id:'sams',      name:"Sam's Club",    type:'Warehouse Club', abbr:'SC', color:'#007dc6',
+    search: q=>`https://www.samsclub.com/s/${q}`,
+    weekly: z=>`https://www.samsclub.com/savings`,
+    coupon: q=>`https://www.samsclub.com/savings` },
+  { id:'costco',    name:'Costco',        type:'Warehouse Club', abbr:'CO', color:'#005daa',
+    search: q=>`https://www.costco.com/CatalogSearch?keyword=${q}`,
+    weekly: z=>`https://www.costco.com/hot-buys.html`,
+    coupon: q=>`https://www.costco.com/savings-events.html` },
+  { id:'publix',    name:'Publix',        type:'Grocery',        abbr:'PX', color:'#007a40',
+    search: q=>`https://www.publix.com/savings/coupons-and-deals?q=${q}`,
+    weekly: z=>`https://www.publix.com/savings/weekly-ad`,
+    coupon: q=>`https://www.publix.com/savings/coupons-and-deals?q=${q}` },
+  { id:'foodlion',  name:'Food Lion',     type:'Grocery',        abbr:'FL', color:'#e31837',
+    search: q=>`https://www.foodlion.com/search/?q=${q}`,
+    weekly: z=>`https://www.foodlion.com/savings/weekly-specials/`,
+    coupon: q=>`https://www.foodlion.com/savings/coupons/` },
+  { id:'dollargen', name:'Dollar General',type:'Value Retail',   abbr:'DG', color:'#ffc220',
+    search: q=>`https://www.dollargeneral.com/search#q=${q}&t=All`,
+    weekly: z=>`https://www.dollargeneral.com/savings/weekly-ad.html`,
+    coupon: q=>`https://www.dollargeneral.com/savings/coupons.html` },
+  { id:'cvs',       name:'CVS Pharmacy',  type:'Drug Store',     abbr:'CV', color:'#cc0000',
+    search: q=>`https://www.cvs.com/search?searchTerm=${q}`,
+    weekly: z=>`https://www.cvs.com/weekly-ad/weekly-deals`,
+    coupon: q=>`https://www.cvs.com/extracare/coupons-and-deals` },
+  { id:'walgreens', name:'Walgreens',     type:'Drug Store',     abbr:'WG', color:'#e31837',
+    search: q=>`https://www.walgreens.com/search/results.jsp?Ntt=${q}`,
+    weekly: z=>`https://www.walgreens.com/offers/offers.jsp`,
+    coupon: q=>`https://www.walgreens.com/offers/offers.jsp` },
 ];
 
 let currentEncoded = '';
 let currentZip = '';
+const storeDeals = {}; // { storeId: [{type,label,savings,perUnit}] }
 
-// ── BUILD CARDS ON LOAD ──
+/* ══════════════════════════════════════════════
+   BUILD CARDS
+══════════════════════════════════════════════ */
 function buildCards() {
   const grid = document.getElementById('storeGrid');
   grid.innerHTML = '';
   STORES.forEach(store => {
+    storeDeals[store.id] = [];
     const card = document.createElement('div');
     card.className = 'store-card';
     card.id = 'card-' + store.id;
@@ -325,28 +449,109 @@ function buildCards() {
         <div class="field-label">Shelf / Website Price</div>
         <div class="price-field">
           <span>$</span>
-          <input type="number" step="0.01" min="0" id="price-${store.id}"
-            placeholder="0.00" oninput="calcFinal('${store.id}')" />
+          <input type="number" step="0.01" min="0" id="price-${store.id}" placeholder="0.00" oninput="calcFinal('${store.id}')" />
         </div>
 
-        <div class="field-label">Coupons (enter savings amount)</div>
+        <div class="field-label">Coupons (enter dollar savings)</div>
         <div class="coupon-grid">
           <div class="cpn-wrap">
-            <span class="cpn-label-pill cpn-store-pill">STORE</span>
-            <input type="number" step="0.01" min="0" id="storecpn-${store.id}"
-              placeholder="$0.00" oninput="calcFinal('${store.id}')" />
+            <span class="cpn-pill cpn-s">STORE</span>
+            <input type="number" step="0.01" min="0" id="storecpn-${store.id}" placeholder="$0.00" oninput="calcFinal('${store.id}')" />
           </div>
           <div class="cpn-wrap">
-            <span class="cpn-label-pill cpn-mfr-pill">MFR</span>
-            <input type="number" step="0.01" min="0" id="mfrcpn-${store.id}"
-              placeholder="$0.00" oninput="calcFinal('${store.id}')" />
+            <span class="cpn-pill cpn-m">MFR</span>
+            <input type="number" step="0.01" min="0" id="mfrcpn-${store.id}" placeholder="$0.00" oninput="calcFinal('${store.id}')" />
           </div>
         </div>
 
+        <!-- DEALS FROM AD -->
+        <div class="deals-section">
+          <div class="deals-header">
+            <div class="field-label">Deals from Weekly Ad</div>
+            <button class="btn-add-deal" onclick="toggleDealForm('${store.id}')">+ Add Deal</button>
+          </div>
+          <div class="deal-list" id="deallist-${store.id}"></div>
+
+          <!-- INLINE DEAL FORM -->
+          <div class="deal-form-card" id="dealform-${store.id}">
+            <div class="deal-type-pills">
+              <button class="dtpill active" onclick="switchCardTab('${store.id}','multibuy',this)">3 for $5</button>
+              <button class="dtpill" onclick="switchCardTab('${store.id}','bogo',this)">BOGO</button>
+              <button class="dtpill" onclick="switchCardTab('${store.id}','combo',this)">Combo</button>
+              <button class="dtpill" onclick="switchCardTab('${store.id}','mixmatch',this)">Mix&amp;Match</button>
+            </div>
+
+            <!-- multi-buy -->
+            <div class="deal-subform active" id="dsf-${store.id}-multibuy">
+              <div class="deal-row">
+                <input type="number" placeholder="Qty (e.g. 3)" id="cd-${store.id}-mb-qty" min="1" />
+                <input type="number" placeholder="Deal Price $" step="0.01" id="cd-${store.id}-mb-total" />
+              </div>
+              <div class="deal-row">
+                <input type="number" placeholder="Reg Price each $" step="0.01" id="cd-${store.id}-mb-reg" />
+              </div>
+            </div>
+
+            <!-- bogo -->
+            <div class="deal-subform" id="dsf-${store.id}-bogo">
+              <div class="deal-row">
+                <input type="number" placeholder="Item price $" step="0.01" id="cd-${store.id}-bg-price" />
+                <select id="cd-${store.id}-bg-type">
+                  <option value="free">B1G1 FREE</option>
+                  <option value="50">B1G1 50% off</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- combo -->
+            <div class="deal-subform" id="dsf-${store.id}-combo">
+              <div class="deal-row">
+                <input type="text" placeholder="Product A name" id="cd-${store.id}-cb-an" />
+                <input type="number" placeholder="A price $" step="0.01" id="cd-${store.id}-cb-ap" />
+              </div>
+              <div class="deal-row">
+                <input type="text" placeholder="Product B name" id="cd-${store.id}-cb-bn" />
+                <input type="number" placeholder="B price $" step="0.01" id="cd-${store.id}-cb-bp" />
+              </div>
+              <div class="deal-row">
+                <input type="number" placeholder="Combo deal price $" step="0.01" id="cd-${store.id}-cb-deal" />
+              </div>
+            </div>
+
+            <!-- mix & match -->
+            <div class="deal-subform" id="dsf-${store.id}-mixmatch">
+              <div class="deal-row">
+                <input type="number" placeholder="# items needed" min="1" id="cd-${store.id}-mm-need" />
+                <input type="number" placeholder="Deal price $" step="0.01" id="cd-${store.id}-mm-price" />
+              </div>
+              <div class="deal-row">
+                <input type="number" placeholder="Reg price each $" step="0.01" id="cd-${store.id}-mm-reg" />
+              </div>
+            </div>
+
+            <button class="btn-add-this-deal" onclick="saveCardDeal('${store.id}')">✓ Save Deal to Card</button>
+            <button class="btn-cancel-deal" onclick="toggleDealForm('${store.id}')">Cancel</button>
+          </div>
+        </div>
+
+        <!-- WEEKLY AD UPLOAD -->
+        <div class="ad-section">
+          <div class="field-label" style="margin-bottom:6px">📋 Upload Weekly Ad (PDF or Photo)</div>
+          <div class="ad-upload-row">
+            <label class="ad-upload-label" for="adfile-${store.id}">
+              📎 Click to upload ad image or PDF
+            </label>
+            <input class="ad-upload-input" type="file" id="adfile-${store.id}" accept="image/*,.pdf" onchange="handleAdUpload('${store.id}',this)" />
+            <button class="btn-clear-ad" onclick="clearAd('${store.id}')" title="Remove ad">✕</button>
+          </div>
+          <div class="ad-preview-wrap" id="adpreview-${store.id}"></div>
+        </div>
+
+        <!-- LINKS -->
         <div class="action-links" id="links-${store.id}">
-          <a class="alink alink-search" id="sl-${store.id}" href="${store.search('')}" target="_blank">🔗 Search</a>
-          <a class="alink alink-weekly" id="wl-${store.id}" href="${store.weekly('')}" target="_blank">📰 Weekly Ad</a>
-          <a class="alink alink-coupon" id="cl-${store.id}" href="${store.coupon('')}" target="_blank">✂️ Coupons</a>
+          <a class="alink al-s" id="sl-${store.id}" href="${store.search('')}" target="_blank">🔗 Search</a>
+          <a class="alink al-w" id="wl-${store.id}" href="${store.weekly('')}" target="_blank">📰 Weekly Ad</a>
+          <a class="alink al-c" id="cl-${store.id}" href="${store.coupon('')}" target="_blank">✂️ Coupons</a>
         </div>
         <div class="savings-note" id="note-${store.id}"></div>
       </div>
@@ -355,63 +560,63 @@ function buildCards() {
   });
 }
 
-// ── SEARCH ──
+/* ══════════════════════════════════════════════
+   SEARCH
+══════════════════════════════════════════════ */
 function doSearch() {
   const product = document.getElementById('productInput').value.trim();
   currentZip = document.getElementById('zipInput').value.trim();
   if (!product) { alert('Enter a product name first.'); return; }
-
   currentEncoded = encodeURIComponent(product);
 
-  // Update all card links
-  STORES.forEach(store => {
-    document.getElementById('sl-' + store.id).href = store.search(currentEncoded);
-    document.getElementById('wl-' + store.id).href = store.weekly(currentZip);
-    document.getElementById('cl-' + store.id).href = store.coupon(currentEncoded);
+  STORES.forEach(s => {
+    document.getElementById('sl-'+s.id).href = s.search(currentEncoded);
+    document.getElementById('wl-'+s.id).href = s.weekly(currentZip);
+    document.getElementById('cl-'+s.id).href = s.coupon(currentEncoded);
   });
 
-  // Update quick links
-  const gq = `https://www.google.com/search?q=${currentEncoded}+price&tbm=shop` + (currentZip ? `&near=${currentZip}` : '');
-  const fq = currentZip ? `https://flipp.com/flyers?postal_code=${currentZip}` : 'https://flipp.com';
-  const cq = `https://www.coupons.com/search?q=${currentEncoded}`;
-  document.getElementById('googleLink').href = gq;
+  const gUrl = `https://www.google.com/search?q=${currentEncoded}+price&tbm=shop`+(currentZip?`&near=${currentZip}`:'');
+  document.getElementById('googleLink').href = gUrl;
   document.getElementById('googleLink').textContent = `🛍️ Google Shopping: "${product}"`;
-  document.getElementById('flippLink').href = fq;
-  document.getElementById('cpnLink').href = cq;
+  document.getElementById('flippLink').href = currentZip?`https://flipp.com/flyers?postal_code=${currentZip}`:`https://flipp.com`;
+  document.getElementById('cpnLink').href = `https://www.coupons.com/search?q=${currentEncoded}`;
   document.getElementById('cpnLink').textContent = `✂️ Coupons: "${product}"`;
 
-  // Show open-all button
   document.getElementById('openAllBar').className = 'open-all-bar show';
-
+  document.getElementById('actionBar').style.display = 'flex';
   updateSummary();
 }
 
-// ── OPEN ALL TABS ──
 function openAllTabs() {
-  if (!currentEncoded) { alert('Click "Search All Stores" first.'); return; }
-  STORES.forEach((store, i) => {
-    setTimeout(() => { window.open(store.search(currentEncoded), '_blank'); }, i * 200);
-  });
+  if (!currentEncoded) { alert('Search first.'); return; }
+  STORES.forEach((s,i) => setTimeout(()=>window.open(s.search(currentEncoded),'_blank'), i*200));
 }
 
-// ── CALC FINAL PRICE ──
-function calcFinal(storeId) {
-  const price    = parseFloat(document.getElementById('price-' + storeId).value) || 0;
-  const storeCpn = parseFloat(document.getElementById('storecpn-' + storeId).value) || 0;
-  const mfrCpn   = parseFloat(document.getElementById('mfrcpn-' + storeId).value) || 0;
-  const final = Math.max(0, price - storeCpn - mfrCpn);
+/* ══════════════════════════════════════════════
+   PRICE CALC
+══════════════════════════════════════════════ */
+function getTotalDealSavings(storeId) {
+  return (storeDeals[storeId]||[]).reduce((sum,d)=>sum+(d.savings||0),0);
+}
 
-  const badge = document.getElementById('badge-' + storeId);
-  const note  = document.getElementById('note-' + storeId);
-  const inp   = document.getElementById('price-' + storeId);
+function calcFinal(storeId) {
+  const price    = parseFloat(document.getElementById('price-'+storeId).value)||0;
+  const sCpn     = parseFloat(document.getElementById('storecpn-'+storeId).value)||0;
+  const mCpn     = parseFloat(document.getElementById('mfrcpn-'+storeId).value)||0;
+  const dealSave = getTotalDealSavings(storeId);
+  const final    = Math.max(0, price - sCpn - mCpn - dealSave);
+
+  const badge = document.getElementById('badge-'+storeId);
+  const note  = document.getElementById('note-'+storeId);
+  const inp   = document.getElementById('price-'+storeId);
 
   if (price > 0) {
-    badge.textContent = '$' + final.toFixed(2);
+    badge.textContent = '$'+final.toFixed(2);
     badge.className = 'card-badge priced';
     inp.className = 'has-val';
-    const saved = storeCpn + mfrCpn;
+    const saved = sCpn + mCpn + dealSave;
     if (saved > 0) {
-      note.textContent = `💰 Coupons save $${saved.toFixed(2)} → true cost $${final.toFixed(2)}`;
+      note.textContent = `💰 Total savings $${saved.toFixed(2)} (coupons + deals) → true cost $${final.toFixed(2)}`;
       note.className = 'savings-note show';
     } else { note.className = 'savings-note'; }
   } else {
@@ -424,93 +629,306 @@ function calcFinal(storeId) {
 }
 
 function getFinal(storeId) {
-  const p = parseFloat(document.getElementById('price-' + storeId).value) || 0;
+  const p = parseFloat(document.getElementById('price-'+storeId).value)||0;
   if (!p) return null;
-  const sc = parseFloat(document.getElementById('storecpn-' + storeId).value) || 0;
-  const mc = parseFloat(document.getElementById('mfrcpn-' + storeId).value) || 0;
-  return Math.max(0, p - sc - mc);
+  const sc = parseFloat(document.getElementById('storecpn-'+storeId).value)||0;
+  const mc = parseFloat(document.getElementById('mfrcpn-'+storeId).value)||0;
+  const ds = getTotalDealSavings(storeId);
+  return Math.max(0, p - sc - mc - ds);
 }
 
-// ── UPDATE SUMMARY + WINNER ──
-function updateSummary() {
-  const results = STORES.map(s => ({ store: s, final: getFinal(s.id) }))
-                        .filter(r => r.final !== null)
-                        .sort((a, b) => a.final - b.final);
+/* ══════════════════════════════════════════════
+   DEAL FORM (inline card)
+══════════════════════════════════════════════ */
+function toggleDealForm(storeId) {
+  const form = document.getElementById('dealform-'+storeId);
+  form.classList.toggle('open');
+}
 
-  // Reset all cards
-  STORES.forEach(s => {
-    document.getElementById('card-' + s.id).classList.remove('winner');
-    const b = document.getElementById('badge-' + s.id);
-    b.classList.remove('winning');
+function switchCardTab(storeId, tab, btn) {
+  ['multibuy','bogo','combo','mixmatch'].forEach(t => {
+    document.getElementById('dsf-'+storeId+'-'+t).className = 'deal-subform'+(t===tab?' active':'');
+  });
+  btn.closest('.deal-type-pills').querySelectorAll('.dtpill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function saveCardDeal(storeId) {
+  const activeTab = document.querySelector(`#dealform-${storeId} .dtpill.active`).textContent.trim();
+  let label = '', savings = 0;
+
+  if (activeTab === '3 for $5' || activeTab.includes('3')) {
+    const qty   = parseFloat(document.getElementById(`cd-${storeId}-mb-qty`).value)||0;
+    const total = parseFloat(document.getElementById(`cd-${storeId}-mb-total`).value)||0;
+    const reg   = parseFloat(document.getElementById(`cd-${storeId}-mb-reg`).value)||0;
+    if (!qty||!total) { alert('Enter quantity and deal price.'); return; }
+    const perUnit = total / qty;
+    if (reg > 0) savings = (reg * qty) - total;
+    label = `${qty} for $${total.toFixed(2)} ($${perUnit.toFixed(2)}/ea)`;
+  } else if (activeTab === 'BOGO') {
+    const price = parseFloat(document.getElementById(`cd-${storeId}-bg-price`).value)||0;
+    const type  = document.getElementById(`cd-${storeId}-bg-type`).value;
+    if (!price) { alert('Enter item price.'); return; }
+    if (type==='free') { savings = price; label = `B1G1 FREE (save $${savings.toFixed(2)} on 2nd)`; }
+    else { savings = price*0.5; label = `B1G1 50% off (save $${savings.toFixed(2)} on 2nd)`; }
+  } else if (activeTab === 'Combo') {
+    const an   = document.getElementById(`cd-${storeId}-cb-an`).value||'Product A';
+    const ap   = parseFloat(document.getElementById(`cd-${storeId}-cb-ap`).value)||0;
+    const bn   = document.getElementById(`cd-${storeId}-cb-bn`).value||'Product B';
+    const bp   = parseFloat(document.getElementById(`cd-${storeId}-cb-bp`).value)||0;
+    const deal = parseFloat(document.getElementById(`cd-${storeId}-cb-deal`).value)||0;
+    if (!deal) { alert('Enter combo deal price.'); return; }
+    savings = (ap + bp) - deal;
+    label = `${an} + ${bn} combo = $${deal.toFixed(2)} (save $${Math.max(0,savings).toFixed(2)})`;
+  } else { // Mix & Match
+    const need  = parseFloat(document.getElementById(`cd-${storeId}-mm-need`).value)||0;
+    const price = parseFloat(document.getElementById(`cd-${storeId}-mm-price`).value)||0;
+    const reg   = parseFloat(document.getElementById(`cd-${storeId}-mm-reg`).value)||0;
+    if (!need||!price) { alert('Enter items needed and deal price.'); return; }
+    const perUnit = price / need;
+    if (reg > 0) savings = (reg * need) - price;
+    label = `Any ${need} for $${price.toFixed(2)} ($${perUnit.toFixed(2)}/ea)`;
+  }
+
+  storeDeals[storeId].push({ label, savings: Math.max(0, savings) });
+  renderDeals(storeId);
+  toggleDealForm(storeId);
+  calcFinal(storeId);
+}
+
+function renderDeals(storeId) {
+  const list = document.getElementById('deallist-'+storeId);
+  list.innerHTML = storeDeals[storeId].map((d,i) => `
+    <div class="deal-chip">
+      <span class="deal-text">🏷️ ${d.label}</span>
+      ${d.savings>0?`<span class="deal-savings">-$${d.savings.toFixed(2)}</span>`:''}
+      <button class="deal-remove" onclick="removeDeal('${storeId}',${i})" title="Remove">✕</button>
+    </div>`).join('');
+}
+
+function removeDeal(storeId, idx) {
+  storeDeals[storeId].splice(idx,1);
+  renderDeals(storeId);
+  calcFinal(storeId);
+}
+
+/* ══════════════════════════════════════════════
+   AD UPLOAD
+══════════════════════════════════════════════ */
+function handleAdUpload(storeId, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const wrap = document.getElementById('adpreview-'+storeId);
+  wrap.innerHTML = '';
+  wrap.className = 'ad-preview-wrap show';
+
+  const label = document.querySelector(`label[for="adfile-${storeId}"]`);
+  label.textContent = '📎 ' + file.name;
+
+  if (file.type === 'application/pdf') {
+    const url = URL.createObjectURL(file);
+    wrap.innerHTML = `<iframe class="ad-pdf-frame" src="${url}"></iframe>`;
+  } else {
+    const reader = new FileReader();
+    reader.onload = e => {
+      wrap.innerHTML = `<img class="ad-preview-img" src="${e.target.result}" alt="Weekly ad" onclick="this.style.transform=this.style.transform?'':'scale(1.8)'" />`;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function clearAd(storeId) {
+  document.getElementById('adfile-'+storeId).value = '';
+  document.getElementById('adpreview-'+storeId).className = 'ad-preview-wrap';
+  document.getElementById('adpreview-'+storeId).innerHTML = '';
+  document.querySelector(`label[for="adfile-${storeId}"]`).textContent = '📎 Click to upload ad image or PDF';
+}
+
+/* ══════════════════════════════════════════════
+   SUMMARY + WINNER
+══════════════════════════════════════════════ */
+function updateSummary() {
+  const results = STORES.map(s=>({store:s,final:getFinal(s.id)}))
+                        .filter(r=>r.final!==null)
+                        .sort((a,b)=>a.final-b.final);
+
+  STORES.forEach(s=>{
+    document.getElementById('card-'+s.id).classList.remove('winner');
+    document.getElementById('badge-'+s.id).classList.remove('winning');
   });
 
   const banner = document.getElementById('winnerBanner');
   const wrap   = document.getElementById('summaryWrap');
-
-  if (!results.length) {
-    banner.className = 'winner-banner';
-    wrap.className = 'summary-wrap';
-    return;
-  }
+  if (!results.length) { banner.className='winner-banner'; wrap.className='summary-wrap'; return; }
 
   const winner = results[0];
-  const worst  = results[results.length - 1];
-
-  // Highlight winner
-  document.getElementById('card-' + winner.store.id).classList.add('winner');
-  document.getElementById('badge-' + winner.store.id).classList.add('winning');
-
-  // Banner
+  const worst  = results[results.length-1];
+  document.getElementById('card-'+winner.store.id).classList.add('winner');
+  document.getElementById('badge-'+winner.store.id).classList.add('winning');
   banner.className = 'winner-banner show';
-  banner.innerHTML = results.length > 1
-    ? `🏆 Best Deal: <strong>${winner.store.name}</strong> at <strong>$${winner.final.toFixed(2)}</strong> — saves $${(worst.final - winner.final).toFixed(2)} vs most expensive`
-    : `✅ ${winner.store.name}: $${winner.final.toFixed(2)} — add more store prices to compare`;
+  banner.innerHTML = results.length>1
+    ? `🏆 Best Deal: <strong>${winner.store.name}</strong> at <strong>$${winner.final.toFixed(2)}</strong> — saves $${(worst.final-winner.final).toFixed(2)} vs most expensive`
+    : `✅ ${winner.store.name}: $${winner.final.toFixed(2)} — enter more store prices to compare`;
 
-  // Summary table
-  wrap.className = 'summary-wrap show';
-  const medals = ['🥇','🥈','🥉'];
-  document.getElementById('summaryBody').innerHTML = results.map((r, i) => `
-    <div class="summary-row ${i === 0 ? 'best' : ''}">
-      <div class="s-rank">${medals[i] || '#'+(i+1)}</div>
-      <div class="s-name">${r.store.name}</div>
-      <div class="s-price">$${r.final.toFixed(2)}</div>
-      <div class="s-diff ${i === 0 ? 'best-tag' : ''}">${i === 0 ? '← BEST DEAL' : '+$'+(r.final - winner.final).toFixed(2)+' more'}</div>
+  wrap.className='summary-wrap show';
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('summaryBody').innerHTML = results.map((r,i)=>`
+    <div class="summary-row ${i===0?'best':''}">
+      <div class="sr-rank">${medals[i]||'#'+(i+1)}</div>
+      <div class="sr-name">${r.store.name}</div>
+      <div class="sr-price">$${r.final.toFixed(2)}</div>
+      <div class="sr-diff ${i===0?'best-tag':''}">${i===0?'← BEST DEAL':'+$'+(r.final-winner.final).toFixed(2)+' more'}</div>
     </div>`).join('');
 }
 
-// ── CLEAR ──
+/* ══════════════════════════════════════════════
+   DEAL CALCULATOR (modal)
+══════════════════════════════════════════════ */
+function openDealCalc()  { document.getElementById('dealModal').classList.add('open'); }
+function closeDealCalc() { document.getElementById('dealModal').classList.remove('open'); }
+function closeDealOnOverlay(e) { if(e.target===document.getElementById('dealModal')) closeDealCalc(); }
+
+function switchDealTab(tab, btn) {
+  ['multibuy','bogo','combo','mixmatch'].forEach(t=>{
+    document.getElementById('tab-'+t).className='deal-panel'+(t===tab?' active':'');
+  });
+  document.querySelectorAll('.deal-tabs .dtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function calcMultibuy() {
+  const qty    = parseFloat(document.getElementById('mb-qty').value)||0;
+  const total  = parseFloat(document.getElementById('mb-total').value)||0;
+  const reg    = parseFloat(document.getElementById('mb-reg').value)||0;
+  const buying = parseFloat(document.getElementById('mb-buying').value)||0;
+  const box    = document.getElementById('mb-result');
+  if (!qty||!total) { box.style.display='none'; return; }
+  const perUnit = total/qty;
+  const fullGroups = buying>0 ? Math.floor(buying/qty) : 0;
+  const leftover   = buying>0 ? buying%qty : 0;
+  const dealCost   = fullGroups*total + leftover*(reg||perUnit);
+  const regCost    = buying>0&&reg>0 ? buying*reg : 0;
+  box.style.display='block';
+  box.className='result-box green';
+  box.innerHTML=`
+    <div class="result-title">Price Per Item at Deal Price</div>
+    <div class="result-main">$${perUnit.toFixed(2)} each</div>
+    <div class="result-sub">${buying>0?`Buying ${buying}: pay <strong>$${dealCost.toFixed(2)}</strong>${regCost>0?' vs $'+regCost.toFixed(2)+' regular':''}`:'Enter quantity buying for total cost'}</div>
+    ${regCost>0&&buying>0?`<div class="result-sub" style="color:#276749;font-weight:700;margin-top:4px">💰 You save $${(regCost-dealCost).toFixed(2)}</div>`:''}`;
+}
+
+function calcBogo() {
+  const price  = parseFloat(document.getElementById('bg-price').value)||0;
+  const type   = document.getElementById('bg-type').value;
+  const pct    = parseFloat(document.getElementById('bg-custom-pct').value)||0;
+  const qty    = parseFloat(document.getElementById('bg-qty').value)||0;
+  const cwrap  = document.getElementById('bg-custom-wrap');
+  cwrap.style.display = type==='custom'?'block':'none';
+  const box = document.getElementById('bg-result');
+  if (!price) { box.style.display='none'; return; }
+
+  let disc2 = type==='free'?price : type==='50'?price*0.5 : price*(pct/100);
+  const pairCost = price + (price-disc2);
+  const perItem  = pairCost/2;
+
+  let totalCost = 0, totalSave = 0;
+  if (qty>0) {
+    const pairs = Math.floor(qty/2);
+    const extra = qty%2;
+    totalCost = pairs*pairCost + extra*price;
+    totalSave = pairs*disc2;
+  }
+
+  box.style.display='block';
+  box.className='result-box green';
+  box.innerHTML=`
+    <div class="result-title">BOGO Deal Price</div>
+    <div class="result-main">$${pairCost.toFixed(2)} for 2 ($${perItem.toFixed(2)}/ea)</div>
+    ${qty>0?`<div class="result-sub">Buying ${qty} items: pay <strong>$${totalCost.toFixed(2)}</strong></div>
+    <div class="result-sub" style="color:#276749;font-weight:700;margin-top:4px">💰 Save $${totalSave.toFixed(2)}</div>`:''}`;
+}
+
+function calcCombo() {
+  const aName  = document.getElementById('cb-a-name').value||'Product A';
+  const aPrice = parseFloat(document.getElementById('cb-a-price').value)||0;
+  const aQty   = parseInt(document.getElementById('cb-a-qty').value)||1;
+  const bName  = document.getElementById('cb-b-name').value||'Product B';
+  const bPrice = parseFloat(document.getElementById('cb-b-price').value)||0;
+  const bQty   = parseInt(document.getElementById('cb-b-qty').value)||1;
+  const deal   = parseFloat(document.getElementById('cb-deal').value)||0;
+  const box    = document.getElementById('cb-result');
+  if (!deal) { box.style.display='none'; return; }
+  const regular = aPrice*aQty + bPrice*bQty;
+  const savings = regular - deal;
+  box.style.display='block';
+  box.className='result-box green';
+  box.innerHTML=`
+    <div class="result-title">Combo Deal Price</div>
+    <div class="result-main">$${deal.toFixed(2)} total</div>
+    <div class="result-sub">${aQty}x ${aName} + ${bQty}x ${bName}</div>
+    ${regular>0?`<div class="result-sub">Regular total: $${regular.toFixed(2)}</div>
+    <div class="result-sub" style="color:#276749;font-weight:700;margin-top:4px">💰 You save $${Math.max(0,savings).toFixed(2)}</div>`:''}`;
+}
+
+function calcMixMatch() {
+  const need   = parseFloat(document.getElementById('mm-need').value)||0;
+  const price  = parseFloat(document.getElementById('mm-price').value)||0;
+  const buying = parseFloat(document.getElementById('mm-buying').value)||0;
+  const reg    = parseFloat(document.getElementById('mm-reg').value)||0;
+  const box    = document.getElementById('mm-result');
+  if (!need||!price) { box.style.display='none'; return; }
+  const perUnit    = price/need;
+  const fullGroups = buying>0?Math.floor(buying/need):0;
+  const leftover   = buying>0?buying%need:0;
+  const totalCost  = fullGroups*price + leftover*(reg||perUnit);
+  const regCost    = buying>0&&reg>0?buying*reg:0;
+  box.style.display='block';
+  box.className='result-box green';
+  box.innerHTML=`
+    <div class="result-title">Mix &amp; Match Deal</div>
+    <div class="result-main">$${perUnit.toFixed(2)} per item</div>
+    ${buying>0?`<div class="result-sub">Buying ${buying}: pay <strong>$${totalCost.toFixed(2)}</strong>${regCost>0?' vs $'+regCost.toFixed(2)+' regular':''}</div>
+    ${regCost>0?`<div class="result-sub" style="color:#276749;font-weight:700;margin-top:4px">💰 Save $${(regCost-totalCost).toFixed(2)}</div>`:''}`:''} `;
+}
+
+/* ══════════════════════════════════════════════
+   CLEAR
+══════════════════════════════════════════════ */
 function clearAll() {
-  document.getElementById('productInput').value = '';
-  document.getElementById('zipInput').value = '';
-  currentEncoded = ''; currentZip = '';
-  document.getElementById('openAllBar').className = 'open-all-bar';
-  document.getElementById('winnerBanner').className = 'winner-banner';
-  document.getElementById('summaryWrap').className = 'summary-wrap';
-  document.getElementById('googleLink').textContent = '🛍️ Google Shopping';
-  document.getElementById('googleLink').href = 'https://www.google.com/search?tbm=shop';
-  document.getElementById('cpnLink').textContent = '✂️ Coupons.com';
-  document.getElementById('cpnLink').href = 'https://www.coupons.com';
-  document.getElementById('flippLink').href = 'https://flipp.com';
-  STORES.forEach(s => {
-    document.getElementById('price-' + s.id).value = '';
-    document.getElementById('storecpn-' + s.id).value = '';
-    document.getElementById('mfrcpn-' + s.id).value = '';
-    document.getElementById('badge-' + s.id).textContent = 'No price';
-    document.getElementById('badge-' + s.id).className = 'card-badge';
-    document.getElementById('note-' + s.id).className = 'savings-note';
-    document.getElementById('price-' + s.id).className = '';
-    document.getElementById('card-' + s.id).classList.remove('winner');
-    document.getElementById('sl-' + s.id).href = s.search('');
-    document.getElementById('wl-' + s.id).href = s.weekly('');
-    document.getElementById('cl-' + s.id).href = s.coupon('');
+  document.getElementById('productInput').value='';
+  document.getElementById('zipInput').value='';
+  currentEncoded=''; currentZip='';
+  document.getElementById('openAllBar').className='open-all-bar';
+  document.getElementById('actionBar').style.display='none';
+  document.getElementById('winnerBanner').className='winner-banner';
+  document.getElementById('summaryWrap').className='summary-wrap';
+  document.getElementById('googleLink').textContent='🛍️ Google Shopping';
+  document.getElementById('googleLink').href='https://www.google.com/search?tbm=shop';
+  document.getElementById('cpnLink').textContent='✂️ Coupons.com';
+  document.getElementById('cpnLink').href='https://www.coupons.com';
+  document.getElementById('flippLink').href='https://flipp.com';
+  STORES.forEach(s=>{
+    document.getElementById('price-'+s.id).value='';
+    document.getElementById('storecpn-'+s.id).value='';
+    document.getElementById('mfrcpn-'+s.id).value='';
+    document.getElementById('badge-'+s.id).textContent='No price';
+    document.getElementById('badge-'+s.id).className='card-badge';
+    document.getElementById('note-'+s.id).className='savings-note';
+    document.getElementById('price-'+s.id).className='';
+    document.getElementById('card-'+s.id).classList.remove('winner');
+    storeDeals[s.id]=[];
+    renderDeals(s.id);
+    clearAd(s.id);
   });
 }
 
-// ── INIT ──
-document.addEventListener('DOMContentLoaded', () => {
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
   buildCards();
-  ['productInput','zipInput'].forEach(id =>
-    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); })
+  ['productInput','zipInput'].forEach(id=>
+    document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doSearch(); })
   );
 });
 </script>
