@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store Price Comparator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; min-height: 100vh; }
+
+  header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white; padding: 18px 20px; text-align: center;
+  }
+  header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
+  header p { font-size: 0.78rem; opacity: 0.7; margin-top: 4px; }
+
+  .search-bar {
+    background: white; padding: 16px; display: flex; gap: 10px; flex-wrap: wrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100;
+  }
+  .search-bar input {
+    flex: 1; min-width: 160px; padding: 10px 14px; border: 2px solid #e2e8f0;
+    border-radius: 8px; font-size: 0.95rem; outline: none; transition: border 0.2s;
+  }
+  .search-bar input:focus { border-color: #0f3460; }
+  .search-bar button {
+    padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600;
+    cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+  }
+  .btn-search { background: #0f3460; color: white; }
+  .btn-search:hover { background: #e94560; }
+  .btn-clear { background: #e2e8f0; color: #4a5568; }
+  .btn-clear:hover { background: #cbd5e0; }
+
+  .winner-banner {
+    display: none; margin: 14px 16px; padding: 14px 18px;
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    border-radius: 12px; color: white; font-weight: 700;
+    font-size: 1rem; text-align: center; box-shadow: 0 4px 15px rgba(17,153,142,0.3);
+  }
+  .winner-banner.show { display: block; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 14px; padding: 14px 16px;
+  }
+
+  .store-card {
+    background: white; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07); transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+  }
+  .store-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .store-card.winner { border-color: #38ef7d; }
+
+  .card-header {
+    padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid #f0f4f8;
+  }
+  .store-logo {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.8rem; color: white; flex-shrink: 0;
+  }
+  .store-name { font-weight: 700; font-size: 0.95rem; color: #1a202c; }
+  .store-type { font-size: 0.72rem; color: #718096; margin-top: 1px; }
+  .final-price-badge {
+    margin-left: auto; background: #f0f4f8; border-radius: 8px;
+    padding: 4px 10px; font-size: 0.8rem; font-weight: 700; color: #4a5568;
+    white-space: nowrap;
+  }
+  .final-price-badge.has-price { background: #ebf8ff; color: #2b6cb0; }
+  .final-price-badge.winner-price { background: #f0fff4; color: #276749; }
+
+  .card-body { padding: 14px 16px; }
+
+  .field-group { margin-bottom: 12px; }
+  .field-label { font-size: 0.72rem; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+
+  .price-row { display: flex; gap: 8px; align-items: center; }
+  .price-input {
+    flex: 1; padding: 8px 10px; border: 1.5px solid #e2e8f0;
+    border-radius: 8px; font-size: 0.9rem; outline: none; transition: border 0.2s;
+    background: #fafafa;
+  }
+  .price-input:focus { border-color: #0f3460; background: white; }
+  .price-input.has-value { border-color: #90cdf4; background: white; }
+
+  .coupon-row { display: flex; gap: 8px; }
+  .coupon-input {
+    flex: 1; padding: 7px 10px; border: 1.5px solid #e2e8f0;
+    border-radius: 8px; font-size: 0.85rem; outline: none; transition: border 0.2s;
+    background: #fafafa;
+  }
+  .coupon-input:focus { border-color: #805ad5; background: white; }
+  .coupon-tag {
+    padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700;
+    white-space: nowrap; align-self: center;
+  }
+  .tag-store { background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; }
+  .tag-mfr { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
+
+  .ad-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.75rem; color: #0f3460; text-decoration: none; font-weight: 600;
+    padding: 5px 10px; background: #ebf8ff; border-radius: 6px;
+    transition: background 0.2s; margin-top: 4px;
+  }
+  .ad-link:hover { background: #bee3f8; }
+
+  .savings-line {
+    margin-top: 10px; padding: 8px 12px; background: #fffbeb;
+    border-radius: 8px; border-left: 3px solid #f6ad55;
+    font-size: 0.8rem; color: #744210; display: none;
+  }
+  .savings-line.show { display: block; }
+
+  .flipp-bar {
+    margin: 0 16px 14px; padding: 12px 16px;
+    background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .flipp-bar span { font-size: 0.85rem; color: #4a5568; font-weight: 600; }
+  .flipp-btn {
+    padding: 8px 16px; background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white; border-radius: 8px; text-decoration: none;
+    font-size: 0.82rem; font-weight: 700; transition: opacity 0.2s;
+  }
+  .flipp-btn:hover { opacity: 0.85; }
+
+  .summary-table {
+    display: none; margin: 0 16px 20px; background: white;
+    border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .summary-table.show { display: block; }
+  .summary-title {
+    padding: 12px 16px; background: #1a1a2e; color: white;
+    font-weight: 700; font-size: 0.9rem;
+  }
+  .summary-row {
+    display: flex; padding: 10px 16px; border-bottom: 1px solid #f0f4f8;
+    align-items: center; font-size: 0.85rem;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row.rank-1 { background: #f0fff4; }
+  .summary-rank { width: 28px; font-weight: 800; color: #a0aec0; }
+  .summary-rank.gold { color: #d69e2e; }
+  .summary-rank.silver { color: #718096; }
+  .summary-rank.bronze { color: #c05621; }
+  .summary-store { flex: 1; font-weight: 600; }
+  .summary-final { font-weight: 800; color: #2b6cb0; }
+  .summary-savings { font-size: 0.75rem; color: #38a169; margin-left: 8px; }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; padding: 10px; }
+    .search-bar { gap: 8px; }
+    .search-bar input { min-width: 120px; }
+    header h1 { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🛒 Store Price Comparator</h1>
+  <p>Find the cheapest price across 9 stores — with coupons stacked</p>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="productInput" placeholder="Product name (e.g. Gatorade 32oz)" />
+  <input type="text" id="zipInput" placeholder="ZIP code" maxlength="5" style="max-width:110px" />
+  <button class="btn-search" onclick="loadSearch()">🔍 Search Ads</button>
+  <button class="btn-clear" onclick="clearAll()">Clear</button>
+</div>
+
+<div id="winnerBanner" class="winner-banner"></div>
+
+<div class="flipp-bar">
+  <span>📰 Weekly Ads (all stores by ZIP):</span>
+  <a id="flippLink" href="https://flipp.com" target="_blank" class="flipp-btn">Open Flipp.com →</a>
+  <a href="https://www.coupons.com" target="_blank" class="flipp-btn" style="background:linear-gradient(135deg,#e94560,#c0392b)">Manufacturer Coupons →</a>
+</div>
+
+<div id="summaryTable" class="summary-table">
+  <div class="summary-title">📊 Price Ranking — Best Deal First</div>
+  <div id="summaryBody"></div>
+</div>
+
+<div class="grid" id="storeGrid"></div>
+
+<script>
+const STORES = [
+  { id: 'walmart',    name: 'Walmart',      type: 'Supercenter',      color: '#0071ce', abbr: 'WM',
+    search: 'https://www.walmart.com/search?q=',
+    ad: 'https://www.walmart.com/store-finder?location=',
+    weekly: 'https://flipp.com/flyers/walmart?postal_code=' },
+  { id: 'target',     name: 'Target',       type: 'General Retail',   color: '#cc0000', abbr: 'TG',
+    search: 'https://www.target.com/s?searchTerm=',
+    weekly: 'https://flipp.com/flyers/target?postal_code=' },
+  { id: 'sams',       name: "Sam's Club",   type: 'Warehouse Club',   color: '#007dc6', abbr: 'SC',
+    search: 'https://www.samsclub.com/s/',
+    weekly: 'https://www.samsclub.com/savings' },
+  { id: 'costco',     name: 'Costco',       type: 'Warehouse Club',   color: '#005daa', abbr: 'CO',
+    search: 'https://www.costco.com/CatalogSearch?keyword=',
+    weekly: 'https://www.costco.com/hot-buys.html' },
+  { id: 'publix',     name: 'Publix',       type: 'Grocery',          color: '#007a40', abbr: 'PX',
+    search: 'https://www.publix.com/savings/coupons-and-deals?q=',
+    weekly: 'https://flipp.com/flyers/publix?postal_code=' },
+  { id: 'foodlion',   name: 'Food Lion',    type: 'Grocery',          color: '#e31837', abbr: 'FL',
+    search: 'https://www.foodlion.com/search/?q=',
+    weekly: 'https://flipp.com/flyers/food-lion?postal_code=' },
+  { id: 'dollargen',  name: 'Dollar General', type: 'Value Retail',   color: '#ffc220', abbr: 'DG',
+    search: 'https://www.dollargeneral.com/search#q=',
+    weekly: 'https://flipp.com/flyers/dollar-general?postal_code=' },
+  { id: 'cvs',        name: 'CVS Pharmacy', type: 'Drug Store',       color: '#cc0000', abbr: 'CV',
+    search: 'https://www.cvs.com/search?searchTerm=',
+    weekly: 'https://flipp.com/flyers/cvs?postal_code=' },
+  { id: 'walgreens',  name: 'Walgreens',    type: 'Drug Store',       color: '#e31837', abbr: 'WG',
+    search: 'https://www.walgreens.com/search/results.jsp?Ntt=',
+    weekly: 'https://flipp.com/flyers/walgreens?postal_code=' },
+];
+
+let currentProduct = '';
+let currentZip = '';
+
+function buildCards() {
+  const grid = document.getElementById('storeGrid');
+  grid.innerHTML = '';
+  STORES.forEach(store => {
+    const card = document.createElement('div');
+    card.className = 'store-card';
+    card.id = 'card-' + store.id;
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="store-logo" style="background:${store.color}">${store.abbr}</div>
+        <div>
+          <div class="store-name">${store.name}</div>
+          <div class="store-type">${store.type}</div>
+        </div>
+        <div class="final-price-badge" id="badge-${store.id}">—</div>
+      </div>
+      <div class="card-body">
+        <div class="field-group">
+          <div class="field-label">Shelf / Website Price</div>
+          <div class="price-row">
+            <span style="color:#718096;font-weight:600">$</span>
+            <input class="price-input" id="price-${store.id}" type="number" step="0.01" min="0"
+              placeholder="0.00" oninput="calcFinal('${store.id}')" />
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Coupons / Discounts</div>
+          <div class="coupon-row" style="margin-bottom:6px">
+            <span class="coupon-tag tag-store">STORE</span>
+            <input class="coupon-input" id="storecpn-${store.id}" type="number" step="0.01" min="0"
+              placeholder="Store coupon $" oninput="calcFinal('${store.id}')" />
+          </div>
+          <div class="coupon-row">
+            <span class="coupon-tag tag-mfr">MFR</span>
+            <input class="coupon-input" id="mfrcpn-${store.id}" type="number" step="0.01" min="0"
+              placeholder="Manufacturer coupon $" oninput="calcFinal('${store.id}')" />
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Quick Links</div>
+          <a class="ad-link" id="searchlink-${store.id}" href="${store.search}" target="_blank">🔗 Search ${store.name} →</a>
+          &nbsp;
+          <a class="ad-link" id="adlink-${store.id}" href="${store.weekly || store.search}" target="_blank">📰 Weekly Ad →</a>
+        </div>
+        <div class="savings-line" id="savings-${store.id}"></div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function loadSearch() {
+  currentProduct = document.getElementById('productInput').value.trim();
+  currentZip = document.getElementById('zipInput').value.trim();
+
+  if (!currentProduct) { alert('Enter a product name first.'); return; }
+
+  const encoded = encodeURIComponent(currentProduct);
+
+  STORES.forEach(store => {
+    const searchLink = document.getElementById('searchlink-' + store.id);
+    const adLink = document.getElementById('adlink-' + store.id);
+    searchLink.href = store.search + encoded;
+    if (store.weekly) {
+      adLink.href = currentZip ? store.weekly + currentZip : store.weekly;
+    } else {
+      adLink.href = store.search + encoded;
+    }
+  });
+
+  // Update Flipp link
+  const flippUrl = currentZip
+    ? `https://flipp.com/search/${encoded}?postal_code=${currentZip}`
+    : `https://flipp.com/search/${encoded}`;
+  document.getElementById('flippLink').href = flippUrl;
+  document.getElementById('flippLink').textContent = `Search "${currentProduct}" on Flipp →`;
+
+  updateSummary();
+}
+
+function calcFinal(storeId) {
+  const price = parseFloat(document.getElementById('price-' + storeId).value) || 0;
+  const storeCpn = parseFloat(document.getElementById('storecpn-' + storeId).value) || 0;
+  const mfrCpn = parseFloat(document.getElementById('mfrcpn-' + storeId).value) || 0;
+
+  const final = Math.max(0, price - storeCpn - mfrCpn);
+  const badge = document.getElementById('badge-' + storeId);
+  const savingsEl = document.getElementById('savings-' + storeId);
+  const priceInput = document.getElementById('price-' + storeId);
+
+  if (price > 0) {
+    badge.textContent = '$' + final.toFixed(2);
+    badge.className = 'final-price-badge has-price';
+    priceInput.className = 'price-input has-value';
+
+    const totalSaved = storeCpn + mfrCpn;
+    if (totalSaved > 0) {
+      savingsEl.textContent = `💰 You save $${totalSaved.toFixed(2)} in coupons — true cost $${final.toFixed(2)}`;
+      savingsEl.className = 'savings-line show';
+    } else {
+      savingsEl.className = 'savings-line';
+    }
+  } else {
+    badge.textContent = '—';
+    badge.className = 'final-price-badge';
+    priceInput.className = 'price-input';
+    savingsEl.className = 'savings-line';
+  }
+
+  updateSummary();
+}
+
+function getFinalPrice(storeId) {
+  const price = parseFloat(document.getElementById('price-' + storeId).value) || 0;
+  if (price === 0) return null;
+  const storeCpn = parseFloat(document.getElementById('storecpn-' + storeId).value) || 0;
+  const mfrCpn = parseFloat(document.getElementById('mfrcpn-' + storeId).value) || 0;
+  return Math.max(0, price - storeCpn - mfrCpn);
+}
+
+function updateSummary() {
+  const results = [];
+  STORES.forEach(store => {
+    const final = getFinalPrice(store.id);
+    if (final !== null) results.push({ store, final });
+  });
+
+  // Remove winner highlight from all cards
+  STORES.forEach(s => {
+    const card = document.getElementById('card-' + s.id);
+    card.classList.remove('winner');
+    const badge = document.getElementById('badge-' + s.id);
+    badge.classList.remove('winner-price');
+  });
+
+  if (results.length === 0) {
+    document.getElementById('winnerBanner').className = 'winner-banner';
+    document.getElementById('summaryTable').className = 'summary-table';
+    return;
+  }
+
+  results.sort((a, b) => a.final - b.final);
+  const winner = results[0];
+  const most = results[results.length - 1];
+  const maxFinal = most.final;
+
+  // Winner card highlight
+  document.getElementById('card-' + winner.store.id).classList.add('winner');
+  document.getElementById('badge-' + winner.store.id).classList.add('winner-price');
+
+  // Banner
+  const banner = document.getElementById('winnerBanner');
+  banner.className = 'winner-banner show';
+  banner.innerHTML = `🏆 Best Deal: <strong>${winner.store.name}</strong> at <strong>$${winner.final.toFixed(2)}</strong>` +
+    (results.length > 1 ? ` — saves you $${(maxFinal - winner.final).toFixed(2)} vs most expensive` : '');
+
+  // Summary table
+  const summaryTable = document.getElementById('summaryTable');
+  summaryTable.className = 'summary-table show';
+  const body = document.getElementById('summaryBody');
+  const medals = ['🥇', '🥈', '🥉'];
+  const rankClass = ['gold', 'silver', 'bronze'];
+  body.innerHTML = results.map((r, i) => {
+    const savings = i > 0 ? ` +$${(r.final - winner.final).toFixed(2)}` : ' ← BEST';
+    return `
+      <div class="summary-row ${i === 0 ? 'rank-1' : ''}">
+        <div class="summary-rank ${rankClass[i] || ''}">${medals[i] || '#' + (i+1)}</div>
+        <div class="summary-store">${r.store.name}</div>
+        <div class="summary-final">$${r.final.toFixed(2)}</div>
+        <div class="summary-savings">${savings}</div>
+      </div>`;
+  }).join('');
+}
+
+function clearAll() {
+  document.getElementById('productInput').value = '';
+  document.getElementById('zipInput').value = '';
+  document.getElementById('flippLink').href = 'https://flipp.com';
+  document.getElementById('flippLink').textContent = 'Open Flipp.com →';
+  STORES.forEach(store => {
+    document.getElementById('price-' + store.id).value = '';
+    document.getElementById('storecpn-' + store.id).value = '';
+    document.getElementById('mfrcpn-' + store.id).value = '';
+    document.getElementById('badge-' + store.id).textContent = '—';
+    document.getElementById('badge-' + store.id).className = 'final-price-badge';
+    document.getElementById('savings-' + store.id).className = 'savings-line';
+    document.getElementById('price-' + store.id).className = 'price-input';
+    document.getElementById('card-' + store.id).classList.remove('winner');
+    document.getElementById('searchlink-' + store.id).href = store.search;
+    document.getElementById('adlink-' + store.id).href = store.weekly || store.search;
+  });
+  document.getElementById('winnerBanner').className = 'winner-banner';
+  document.getElementById('summaryTable').className = 'summary-table';
+  currentProduct = ''; currentZip = '';
+}
+
+// Allow Enter key to trigger search
+document.addEventListener('DOMContentLoaded', () => {
+  buildCards();
+  ['productInput','zipInput'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') loadSearch();
+    });
+  });
+});
+</script>
+</body>
+</html>
